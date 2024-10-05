@@ -4,27 +4,27 @@ services:
     # image: public.ecr.aws/v8a6v1r8/learninglocker:3.0.1
     container_name: learninglocker
     depends_on:
-      - mongodb
-      - redis
+      - learninglocker-mongo
+      - learninglocker-redis
     ports:
       - "3000:3000"
       - "8080:8080"
       - "8081:8081"
     working_dir: /usr/local/src/learninglocker
     command: bash -c "source ~/.bashrc && yarn migrate && pm2 start pm2/all.json && cd ../xapi-service && pm2 start pm2/xapi.json && pm2 logs"
-  mongodb:
+  learninglocker-mongo:
     image: mongo:4.0.8
-    container_name: mongodb
+    container_name: learninglocker-mongo
     restart: always
     volumes:
-      - mongodb:/data/db
-  redis:
+      - learninglocker-mongo:/data/db
+  learninglocker-redis:
     image: redis:5.0.4
-    container_name: redis
+    container_name: learninglocker-redis
     restart: always
     volumes:
-      - redis:/data
+      - learninglocker-redis:/data
     command: redis-server --appendonly yes
 volumes:
-  mongodb:
-  redis:
+  learninglocker-mongo:
+  learninglocker-redis:
