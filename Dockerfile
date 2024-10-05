@@ -34,7 +34,6 @@ WORKDIR /usr/local/src
 RUN git clone https://github.com/LearningLocker/learninglocker.git --depth 1 -b v5.2.6
 
 WORKDIR /usr/local/src/learninglocker
-COPY .env.learninglocker.sample .env
 
 RUN yarn install && \
     yarn build-all
@@ -43,7 +42,6 @@ WORKDIR /usr/local/src
 RUN git clone https://github.com/LearningLocker/xapi-service.git --depth 1 -b v2.9.11
 
 WORKDIR /usr/local/src/xapi-service
-COPY .env.xapi-service.sample .env
 RUN yarn install --ignore-engines && \
     yarn build
 

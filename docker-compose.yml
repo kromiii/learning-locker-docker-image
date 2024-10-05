@@ -1,0 +1,33 @@
+services:
+  learninglocker:
+    image: ghcr.io/kromiii/learninglocker:latest
+    build: .
+    container_name: learninglocker
+    depends_on:
+      - learninglocker-mongo
+      - learninglocker-redis
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - .env.learninglocker:/usr/local/src/learninglocker/.env
+      - .env.xapi-service:/usr/local/src/xapi-service/.env
+    working_dir: /usr/local/src/learninglocker
+    command: bash -c "source ~/.bashrc && yarn migrate && pm2 start pm2/all.json && cd ../xapi-service && pm2 start pm2/xapi.json && pm2 logs"
+  learninglocker-mongo:
+    image: mongo:4.0.8
+    container_name: learninglocker-mongo
+    restart: always
+    volumes:
+      - learninglocker-mongo:/data/db
+  learninglocker-redis:
+    image: redis:5.0.4
+    container_name: learninglocker-redis
+    restart: always
+    volumes:
+      - learninglocker-redis:/data
+    command: redis-server --appendonly yes
+volumes:
+  learninglocker-mongo:
+  learninglocker-redis:
