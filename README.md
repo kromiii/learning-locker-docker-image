@@ -16,6 +16,12 @@ docker-compose up -d
 
 してもらえれば localhost:3000 で learning locker が起動するようになっています
 
+ローカルで build したい場合
+
+```
+docker compose build learninglocker
+```
+
 ## 初期設定
 
 === Learning Locker
@@ -23,6 +29,7 @@ docker-compose up -d
 Learning Locker の Admin ユーザを作成する。
 
 ---
+
 EMAIL_ADDRESS=admin@example.com
 ORGANIZATION=personal
 PASSWORD=password123
@@ -32,6 +39,7 @@ docker exec \
  -e PASSWORD=${PASSWORD} learninglocker bash -c '\
     source ~/.bashrc;
     node ./cli/dist/server createSiteAdmin "${EMAIL_ADDRESS}" "${ORGANIZATION}" "${PASSWORD}"'
+
 ---
 
 ==== ログイン
