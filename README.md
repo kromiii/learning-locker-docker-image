@@ -1,64 +1,79 @@
-# learning-locker-docker-image
+# Learning Locker Docker Image
 
-https://github.com/LearningLocker/learninglocker の Docker イメージです。
+This repository contains a Docker image for [Learning Locker](https://github.com/LearningLocker/learninglocker).
 
-ghcr でイメージを公開しています
+## Features
 
-https://github.com/kromiii/learning-locker-docker-image/pkgs/container/learninglocker
+- Multi-architecture support (AMD64, ARM64)
+- Published on GitHub Container Registry (ghcr)
 
-マルチアーキテクチャ（AMD64, ARM64）対応しています。
+## Quick Start
 
-docker compose で動かしたい方はこのレポジトリをクローンして
+To run Learning Locker using docker-compose:
 
-```
+1. Clone this repository
+2. Run the following command:
+
+```bash
 docker-compose up -d
 ```
 
-してもらえれば localhost:3000 で learning locker が起動するようになっています
+Learning Locker will be available at `http://localhost:3000`.
 
-ローカルで build したい場合
+## Building Locally
 
-```
+If you want to build the image locally:
+
+```bash
 docker compose build learninglocker
 ```
 
-## 初期設定
+## Initial Setup
 
-=== Learning Locker
-==== Admin ユーザの作成
-Learning Locker の Admin ユーザを作成する。
+### Creating an Admin User
 
----
+To create an admin user for Learning Locker, use the following command:
 
+```bash
 EMAIL_ADDRESS=admin@example.com
 ORGANIZATION=personal
 PASSWORD=password123
 docker exec \
  -e EMAIL_ADDRESS=${EMAIL_ADDRESS} \
-  -e ORGANIZATION=${ORGANIZATION} \
+ -e ORGANIZATION=${ORGANIZATION} \
  -e PASSWORD=${PASSWORD} learninglocker bash -c '\
     source ~/.bashrc;
     node ./cli/dist/server createSiteAdmin "${EMAIL_ADDRESS}" "${ORGANIZATION}" "${PASSWORD}"'
+```
 
----
+### Logging In
 
-==== ログイン
-Learning Locker( http://localhost:3000/ )に Admin ユーザのアカウントでログインし、組織を選択する。
+1. Navigate to Learning Locker (http://localhost:3000/)
+2. Log in with the admin account you just created
+3. Select your organization
 
-[cols="a,a", frame=none, grid=none]
-|===
-| image::learninglocker/login.png[]
-| image::learninglocker/select-org.png[]
-|===
+### Creating an LRS (Learning Record Store)
 
-==== LRS の作成
-サイドメニューの `[Settings] > [Stores]` から任意の名称で LRS を作成する。
+1. Go to `Settings > Stores` in the side menu
+2. Create an LRS with a name of your choice
 
-image::learninglocker/stores.png[align=center]
+### Configuring a Client
 
-[[learninglocker_client_settings]]
-==== クライアントの設定
-サイドメニューの `[Settings] > [Clients]` から `New xAPI store client` を選択する。 +
-`LRS (optional)` に上記で作成した LRS が指定されていることを確認し、 `Overall Scopes` の `API All` にチェックを入れる。
+1. Go to `Settings > Clients` in the side menu
+2. Select `New xAPI store client`
+3. Ensure the LRS you created is selected in the `LRS (optional)` field
+4. Check the `API All` box under `Overall Scopes`
 
-image::learninglocker/new-xapi-store-client.png[align=center]
+## Image Information
+
+The Docker image is available on GitHub Container Registry:
+
+https://github.com/kromiii/learning-locker-docker-image/pkgs/container/learninglocker
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT
