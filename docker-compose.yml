@@ -1,7 +1,7 @@
 services:
   learninglocker:
+    image: ghcr.io/kromiii/learninglocker:latest
     build: .
-    # image: public.ecr.aws/v8a6v1r8/learninglocker:3.0.1
     container_name: learninglocker
     depends_on:
       - learninglocker-mongo
